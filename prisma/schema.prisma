@@ -15,7 +15,7 @@ datasource db {
 
 model Account {
   id                String  @id @default(cuid())
-  userId            String 
+  userId            String
   type              String
   provider          String
   providerAccountId String
@@ -40,13 +40,16 @@ model User {
   image         String?
   groups        Member[]
   accounts      Account[]
+  teacherGroups Group[]
 }
 
 model Group {
   id      Int      @id @default(autoincrement()) @db.Integer
   title   String
   code    String
+  userId  String
   members Member[]
+  teacher User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model Member {

@@ -1,8 +1,18 @@
 import { auth } from "@/auth"
+import { GroupSkeleton } from "@/components/skeletons/groups";
 import MyGroups from "@/components/ui/groups";
 import GroupButtons from "@/components/ui/groups-buttons";
 import Logout from "@/components/ui/logout";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const session = await auth();
+
+  return {
+    title: session?.user?.name
+  }
+}
 
 export default async function Groups () {
 
@@ -21,7 +31,7 @@ export default async function Groups () {
         <GroupButtons />
       </div>
       
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense key={session?.user?.id} fallback={<GroupSkeleton />}>
         <MyGroups userId={session?.user?.id || ""} />
       </Suspense>
     </main>
