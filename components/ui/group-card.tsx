@@ -6,7 +6,7 @@ import { FaTrash } from "react-icons/fa";
 
 const Actions = () => {
   return (
-    <div className="flex justify-end items-center gap-3">
+    <div className="flex justify-end items-center gap-3 grow">
       <button className="bg-indigo-600 hover:bg-indigo-400 p-2 rounded">
         <BiPencil />
       </button>
@@ -35,7 +35,7 @@ export default function GroupCard (
   const handleClick = () => push(`/groups/${id}`)
 
   return (
-    <article className="bg-gradient-to-tr from-violet-700 to-fuchsia-800 hover:to-fuchsia-700 rounded p-4 min-w-[300px] cursor-pointer" onClick={handleClick}>
+    <article className="bg-gradient-to-tr from-violet-700 to-fuchsia-800 hover:to-fuchsia-700 rounded p-4 w-full max-w-[420px] cursor-pointer h-[150px] flex flex-col" onClick={handleClick}>
       <h2 className="text-2xl py-2 w-full max-w-[30ch] overflow-hidden whitespace-nowrap text-ellipsis">
         <span title={title}>{title}</span>
       </h2>
