@@ -18,12 +18,14 @@ export default async function Groups ({
   searchParams
 }: {
   searchParams?: {
-    new_group?: string
+    new_group?: string;
+    delete_group?: string;
   }
 }) {
 
   const session = await auth()
   const newGroup = searchParams?.new_group || ''
+  const deleteGroup = searchParams?.delete_group || ''
 
   return (
     <main className="p-4">
@@ -38,7 +40,7 @@ export default async function Groups ({
         <GroupButtons />
       </div>
       
-      <Suspense key={newGroup} fallback={<GroupSkeleton />}>
+      <Suspense key={`${newGroup}:${deleteGroup}`} fallback={<GroupSkeleton />}>
         <MyGroups userId={session?.user?.id || ""} />
       </Suspense>
     </main>

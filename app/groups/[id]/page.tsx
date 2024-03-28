@@ -22,6 +22,7 @@ export default async function Group(
   return (
     <main className="p-4">
       <h1>{group.title}</h1>
+      <p>{group.code}</p>
     </main>
   )
 }
