@@ -5,10 +5,11 @@ import { TypeModal } from "@/components/providers/ModalProvider";
 import { DEFAULT_REDIRECT } from "@/routes";
 import { ResponseGroupAction } from "@/types";
 import { z } from 'zod'
-import { createGroup, fetchGroupByCode, fetchMyGroups, joinToGroup } from "./data";
+import { createGroup, deleteGroup, fetchGroupByCode, fetchMyGroups, joinToGroup } from "./data";
 import { revalidatePath } from "next/cache";
+import { generateRandomCode } from "./utils";
 
-const CreateGroupSchema = z.object({
+const GroupSchema = z.object({
   title: z.string({
     invalid_type_error: 'Ingresa un tipo válido'
   }).min(1, 'Ingresa un título para el grupo'),
@@ -35,7 +36,7 @@ export async function createGroupAction(formData: FormData, userId: string): Pro
 
   const data = Object.fromEntries(formData.entries())
 
-  const parsedData = CreateGroupSchema.safeParse(data)
+  const parsedData = GroupSchema.omit({code: true}).safeParse(data)
 
   if (!parsedData.success) {
     return {
@@ -45,15 +46,38 @@ export async function createGroupAction(formData: FormData, userId: string): Pro
     }
   }
 
-  const { title, code } = parsedData.data;
+  const { title } = parsedData.data;
 
   try {
 
-    await createGroup({
-      title,
-      code,
-      userId
-    })
+    const validate = async (): Promise<string> => {
+
+      const code = generateRandomCode()
+
+      const repetedCode = await fetchGroupByCode(code)
+
+      if (repetedCode) {
+        return validate()
+      }else {
+        
+        await createGroup({
+          title,
+          code,
+          userId
+        })
+
+        return code;
+      }
+    }
+
+    const yourCode = await validate()
+
+    revalidatePath('/groups')
+
+    return {
+      message: `Tu codigo del grupo es: ${yourCode}`,
+      success: true
+    }
 
   }catch (e) {
     console.error(e);
@@ -62,17 +86,10 @@ export async function createGroupAction(formData: FormData, userId: string): Pro
       success: false
     }
   }
-
-  revalidatePath('/groups')
-
-  return {
-    message: 'El grupo ha sido creado con éxito!',
-    success: true
-  }
 }
 
 export async function joinToGroupAction(code: string, userId: string): Promise<ResponseGroupAction> {
-  const parsedData = CreateGroupSchema.omit({title: true}).safeParse({code});
+  const parsedData = GroupSchema.omit({title: true}).safeParse({code});
 
   if (!parsedData.success) {
     return {
@@ -120,5 +137,26 @@ export async function joinToGroupAction(code: string, userId: string): Promise<R
       message: 'Fallo al unirte al grupo',
       success: false
     }
+  }
+}
+
+export async function deleteGroupAction(groupId: string): Promise<ResponseGroupAction> {
+  try {
+    
+    await deleteGroup(groupId)
+
+  }catch (e) {
+    console.error(e);
+    return {
+      message: 'Fallo al eliminar el grupo',
+      success: false
+    }
+  }
+
+  revalidatePath('/groups')
+
+  return {
+    message: 'El grupo ha sido eliminado',
+    success: true
   }
 }

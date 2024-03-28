@@ -11,14 +11,14 @@ export async function fetchMyGroups(id: string) {
           {
             members: {
               some: {
-                userId: id
-              }
+                userId: id,
+              },
             },
           },
           {
-            userId: id
-          }
-        ]
+            userId: id,
+          },
+        ],
       },
       select: {
         id: true,
@@ -27,11 +27,11 @@ export async function fetchMyGroups(id: string) {
         teacher: {
           select: {
             name: true,
-            id: true
-          }
-        }
-      }
-    })
+            id: true,
+          },
+        },
+      },
+    });
 
     return groups
   }catch (e) {
@@ -126,5 +126,20 @@ export async function joinToGroup(userId: string, groupId: number) {
   }catch (e) {
     console.error(e);
     throw new Error("Failed to join to group")
+  }
+}
+
+export async function deleteGroup(groupId: string) {
+  try {
+    const results = await db.group.delete({
+      where: {
+        id: Number(groupId) || -1
+      }
+    })
+
+    return results;
+  }catch (e) {
+    console.error(e);
+    throw new Error("Failed to delete group")
   }
 }
