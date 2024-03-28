@@ -14,9 +14,16 @@ export const generateMetadata = async (): Promise<Metadata> => {
   }
 }
 
-export default async function Groups () {
+export default async function Groups ({
+  searchParams
+}: {
+  searchParams?: {
+    new_group?: string
+  }
+}) {
 
   const session = await auth()
+  const newGroup = searchParams?.new_group || ''
 
   return (
     <main className="p-4">
@@ -31,7 +38,7 @@ export default async function Groups () {
         <GroupButtons />
       </div>
       
-      <Suspense key={session?.user?.id} fallback={<GroupSkeleton />}>
+      <Suspense key={newGroup} fallback={<GroupSkeleton />}>
         <MyGroups userId={session?.user?.id || ""} />
       </Suspense>
     </main>
