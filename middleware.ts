@@ -1,6 +1,6 @@
 import {authConfig} from "./auth.config";
 import NextAuth from "next-auth";
-import { API_AUTH_PREFIX, AUTH_ROUTES, DEFAULT_REDIRECT } from "./routes";
+import { API_AUTH_PREFIX, API_NOTIFICATIONS_PREFIX, AUTH_ROUTES, DEFAULT_REDIRECT } from "./routes";
 
 export const {auth} = NextAuth(authConfig)
 
@@ -10,9 +10,15 @@ export default auth((req) => {
   const nextUrl = req.nextUrl;
 
   const isOnApiAuth = nextUrl.pathname.startsWith(API_AUTH_PREFIX);
+  const isOnApiNotifications = nextUrl.pathname.startsWith(API_NOTIFICATIONS_PREFIX);
   const isOnAuthRoute = AUTH_ROUTES.includes(nextUrl.pathname);
 
   if (isOnApiAuth) return;
+
+  if (isOnApiNotifications) {
+    if (isLoggedIn) return;
+    return Response.redirect(new URL('/', nextUrl))
+  }
 
   if (isOnAuthRoute) {
     if (isLoggedIn) {
