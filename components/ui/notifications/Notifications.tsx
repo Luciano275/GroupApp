@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import ModalNotifications from "./Modal";
-import { fetchMyNotifications } from "@/lib/data";
 
 export default async function Notifications () {
 

@@ -22,8 +22,8 @@ export type ApiNotificationsResponse = {
 }
 
 export type ReactQueryNotificationsResponse = {
-  pages: {
+  pages?: {
     notifications: ApiNotificationsResponse[],
-    pageParams: Number[]
   }[]
+  pageParams: Number[]
 }

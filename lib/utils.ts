@@ -1,4 +1,5 @@
-import { format } from "@formkit/tempo";
+import { ApiNotificationsResponse, ReactQueryNotificationsResponse } from "@/types";
+import { InfiniteData } from "@tanstack/react-query";
 
 export const generateRandomCode = () => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -30,4 +31,13 @@ export function tiempoTranscurrido(desde: string) {
   } else {
     return `Hace unos segundos`;
   }
+}
+
+export const getTotalNotifications = (data: InfiniteData<ApiNotificationsResponse, unknown> | undefined) => {
+  if (data && data.pages) {
+    const lengths = [...data.pages.map(({notifications}) => notifications.length)]
+
+    return lengths.reduce((a,b) => a+b, 0)
+  }
+  return null;
 }
