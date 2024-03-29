@@ -7,6 +7,7 @@ import { auth } from '@/auth'
 import GlobalError from "@/components/GlobalError";
 import { GlobalErrorProvider } from "@/components/providers/GlobalErrorProvider";
 import { Loading, LoadingProvider } from "@/components/providers/LoadingProvider";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,17 +27,19 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ModalProvider>
-          <LoadingProvider>
-            <Loading />
-            
-            <GlobalErrorProvider>
-              <GlobalError />
-              <ModalGroup userId={userId || ''} />
-              {children}
-            </GlobalErrorProvider>
-          </LoadingProvider>
-        </ModalProvider>
+        <QueryProvider>
+          <ModalProvider>
+            <LoadingProvider>
+              <Loading />
+              
+              <GlobalErrorProvider>
+                <GlobalError />
+                <ModalGroup userId={userId || ''} />
+                {children}
+              </GlobalErrorProvider>
+            </LoadingProvider>
+          </ModalProvider>
+        </QueryProvider>
       </body>
     </html>
   );

@@ -21,7 +21,7 @@ export default function Logout() {
   const [state, dispatch] = useFormState(logoutAction, undefined)
 
   return (
-    <form action={dispatch}>
+    <form action={dispatch} className="self-center">
       <LogoutButton />
     </form>
   )

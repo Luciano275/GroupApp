@@ -7,6 +7,7 @@ import { BiPencil } from "react-icons/bi";
 import { FaTrash } from "react-icons/fa";
 import Swal from 'sweetalert2'
 import { useLoading } from "../providers/LoadingProvider";
+import Link from 'next/link'
 
 const Actions = ({groupId}: {groupId: number}) => {
 
@@ -61,9 +62,9 @@ const Actions = ({groupId}: {groupId: number}) => {
 
   return (
     <div className="flex justify-end items-center gap-3 grow">
-      <button className="bg-indigo-600 hover:bg-indigo-400 p-2 rounded">
+      <Link href={`/groups/${groupId}/edit`} className="bg-indigo-600 hover:bg-indigo-400 p-2 rounded">
         <BiPencil />
-      </button>
+      </Link>
       <button
         onClick={handleDelete}
         aria-disabled={pending}
