@@ -8,6 +8,7 @@ import { FaTrash } from "react-icons/fa";
 import Swal from 'sweetalert2'
 import { useLoading } from "../providers/LoadingProvider";
 import Link from 'next/link'
+import { QuestionAlert } from "./Alert";
 
 const Actions = ({groupId}: {groupId: number}) => {
 
@@ -19,45 +20,33 @@ const Actions = ({groupId}: {groupId: number}) => {
   const pathname = usePathname();
   const {replace} = useRouter();
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
 
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Esta acción no tiene vuelta atrás",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, borralo",
-      background: "#222",
-      color: '#fff'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
+    const result = await QuestionAlert()
 
-        setPending(true)
-        setLoading(true)
+    if (result){
+      setPending(true)
+      setLoading(true)
 
-        const results = await deleteGroupAction(groupId.toString());
+      const results = await deleteGroupAction(groupId.toString());
 
-        setPending(false)
-        setLoading(false)
-        if (results.success) {
-          const params = new URLSearchParams(searchParams)
+      setPending(false)
+      setLoading(false)
+      if (results.success) {
+        const params = new URLSearchParams(searchParams)
 
-          if (params.get('delete_group')) {
-            params.delete('delete_group')
-          }else {
-            params.set('delete_group', '1')
-          }
-
-          replace(`${pathname}?${params.toString()}`)
-
-          return;
+        if (params.get('delete_group')) {
+          params.delete('delete_group')
+        }else {
+          params.set('delete_group', '1')
         }
 
+        replace(`${pathname}?${params.toString()}`)
+
+        return;
       }
-    });
+    }
   }
 
   return (

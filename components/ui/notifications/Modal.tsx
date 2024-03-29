@@ -15,7 +15,7 @@ export default function ModalNotifications (
 
   const [show, setShow] = useState(false);
 
-  const { data, fetchNextPage, status, hasNextPage, isFetchingNextPage } = useQueryNotifications({userId, apiUrl: '/api/notifications'})
+  const { data, fetchNextPage, status, hasNextPage, isFetchingNextPage, refetch } = useQueryNotifications({userId, apiUrl: '/api/notifications'})
   
   const totalNotifications = getTotalNotifications(data);
 
@@ -27,6 +27,7 @@ export default function ModalNotifications (
         setShow={setShow}
         data={data}
         status={status}
+        totalNofitications={totalNotifications}
       />
 
       <NotificationContainer
@@ -34,11 +35,13 @@ export default function ModalNotifications (
         status={status}
       >
         <NotificationContent
+          userId={userId}
           data={data}
           fetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           totalNotifications={totalNotifications}
+          refetch={refetch}
         />
       </NotificationContainer>
       

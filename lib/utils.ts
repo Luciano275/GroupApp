@@ -34,7 +34,7 @@ export function tiempoTranscurrido(desde: string) {
 }
 
 export const getTotalNotifications = (data: InfiniteData<ApiNotificationsResponse, unknown> | undefined) => {
-  if (data && data.pages) {
+  if (data && data.pages && data.pages.length && data.pages[0].notifications.length > 0) {
     const lengths = [...data.pages.map(({notifications}) => notifications.length)]
 
     return lengths.reduce((a,b) => a+b, 0)

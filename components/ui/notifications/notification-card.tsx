@@ -1,13 +1,15 @@
 import { tiempoTranscurrido } from "@/lib/utils"
 import { ApiNotificationsResponse } from "@/types"
-import { InfiniteData } from "@tanstack/react-query"
-import { BiTrash } from "react-icons/bi"
+import { InfiniteData, QueryObserverResult, RefetchOptions } from "@tanstack/react-query"
 import { Fragment } from "react"
+import DeleteNotificationButton from "./delete-notification"
 
 export default function NotificationCard(
-  {data}:
+  {data, refetch, userId}:
   {
     data: InfiniteData<ApiNotificationsResponse, unknown> | undefined
+    refetch: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<InfiniteData<ApiNotificationsResponse, unknown>, Error>>
+    userId: string;
   }
 ) {
   return (
@@ -26,12 +28,8 @@ export default function NotificationCard(
                 Has sido expulsado del grupo{" "}
                 <span className="font-bold">{group.title}</span>
               </p>
-              <button
-                className="text-neutral-300 hover:text-red-500 cursor-pointer"
-                title="Borrar notificación"
-              >
-                <BiTrash size={18} />
-              </button>
+              
+              <DeleteNotificationButton userId={userId} id={id} refetch={refetch} />
             </div>
           </div>
         ))}

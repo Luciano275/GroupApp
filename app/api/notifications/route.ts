@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
 const TOTAL_NOTIFICATIONS = 5;
@@ -63,6 +64,61 @@ export async function GET(req: Request) {
     console.error(e);
     return Response.json({
       message: 'Failed to fetch notifications'
+    }, {
+      status: 500
+    })
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const userId = (await auth())?.user?.id || '';
+
+    const searchParams = new URL(req.url).searchParams;
+    const notificationId = searchParams.get('notification_id') || '';
+
+    if (!notificationId) {
+      return Response.json({
+        message: 'No group id provided'
+      }, {
+        status: 400
+      })
+    }
+
+    const notification = await db.notification.findFirst({
+      where: {
+        AND: [
+          {
+            id: Number(notificationId)
+          },
+          {
+            userId
+          }
+        ]
+      }
+    })
+
+    if (!notification) {
+      return Response.json({
+        message: 'Notification not found'
+      }, {
+        status: 404
+      })
+    }
+
+    await db.notification.delete({
+      where: {
+        id: Number(notificationId)
+      }
+    })
+
+    return Response.json({
+      message: 'Notification deleted!'
+    })
+  }catch (e) {
+    console.error(e);
+    return Response.json({
+      message: 'Failed to delete notification'
     }, {
       status: 500
     })

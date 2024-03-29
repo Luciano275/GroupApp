@@ -23,7 +23,7 @@ export const useQueryNotifications = ({userId, apiUrl}: {userId: string, apiUrl:
 
   }
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status, refetch } = useInfiniteQuery({
     queryKey: [`notifications:${userId}`],
     initialPageParam: 1,
     queryFn: getNotifications,
@@ -36,6 +36,7 @@ export const useQueryNotifications = ({userId, apiUrl}: {userId: string, apiUrl:
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status
+    status,
+    refetch
   }
 }
