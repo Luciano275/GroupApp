@@ -223,3 +223,21 @@ export async function fetchMyNotifications (userId: string, cursor?: number) {
     throw new Error("Failed to fetch my notifications")
   }
 }
+
+export async function updateGroup(id: number, title: string) {
+  try {
+    const results = await db.group.update({
+      data: {
+        title
+      },
+      where: {
+        id
+      }
+    })
+
+    return results;
+  }catch (e) {
+    console.error(e);
+    throw new Error("Failed to update group")
+  }
+}

@@ -9,6 +9,7 @@ import ErrorMessage from "./form-error"
 import { CiCircleCheck, CiWarning } from "react-icons/ci"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import Spinner from "../Spinner"
+import FormErrorMessage from "./FormErrorMessage"
 
 const ModalCreate = ({inputClassName, state, setGroupName}: {inputClassName: string; state: ResponseGroupAction; setGroupName: Dispatch<SetStateAction<string>>}) => {
   return (
@@ -163,20 +164,8 @@ export default function ModalGroup({userId}: {userId: string;}) {
               <Spinner />
             </div>
           )}
-          {state.message && (
-            <p
-              className={`${
-                state.success ? "bg-green-500" : "bg-red-500"
-              } bg-opacity-30 rounded items-center justify-center p-3 flex gap-x-3`}
-            >
-              {state.success ? (
-                <CiCircleCheck size={30} />
-              ) : (
-                <CiWarning size={25} />
-              )}
-              {state.message}
-            </p>
-          )}
+          
+          <FormErrorMessage state={state} />
         </form>
       </Box>
     </Modal>

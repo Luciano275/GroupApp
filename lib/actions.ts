@@ -5,7 +5,7 @@ import { TypeModal } from "@/components/providers/ModalProvider";
 import { DEFAULT_REDIRECT } from "@/routes";
 import { ResponseGroupAction } from "@/types";
 import { z } from 'zod'
-import { createGroup, deleteGroup, fetchGroupByCode, fetchMyGroups, joinToGroup } from "./data";
+import { createGroup, deleteGroup, fetchGroupByCode, fetchMyGroups, joinToGroup, updateGroup } from "./data";
 import { revalidatePath } from "next/cache";
 import { generateRandomCode } from "./utils";
 
@@ -157,6 +157,37 @@ export async function deleteGroupAction(groupId: string): Promise<ResponseGroupA
 
   return {
     message: 'El grupo ha sido eliminado',
+    success: true
+  }
+}
+
+export async function updateGroupAction(id: number, formData: FormData): Promise<ResponseGroupAction>{
+  const parsedData = GroupSchema.omit({code: true}).safeParse(Object.fromEntries(formData.entries()));
+
+  if (!parsedData.success) {
+    return {
+      errors: parsedData.error.flatten().fieldErrors,
+      message: 'Completa el campo para actualizar el grupo',
+      success: false
+    }
+  }
+
+  const { title } = parsedData.data;
+
+  try {
+    await updateGroup(id, title);
+  }catch (e) {
+    console.error(e);
+    return {
+      message: 'Fallo al actualizar el grupo',
+      success: false
+    }
+  }
+
+  revalidatePath('/groups');
+
+  return {
+    message: 'El grupo ha sido actualizado!',
     success: true
   }
 }

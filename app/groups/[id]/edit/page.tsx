@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { fetchGroupById } from "@/lib/data";
 import { notFound } from 'next/navigation'
 import { BiInfoCircle } from "react-icons/bi";
+import EditGroupForm from "./Form";
 
 export default async function EditGroup(
   {params}: {params: {id: string}}
@@ -25,11 +26,9 @@ export default async function EditGroup(
           </p>
         </div>
         <h1 className="text-3xl border-b border-neutral-600 py-3">Editar tu grupo</h1>
-        <form
-          className="flex flex-col gap-y-4"
-        >
-
-        </form>
+        <EditGroupForm
+          group={group}
+        />
       </div>
     </main>
   )
