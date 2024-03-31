@@ -1,6 +1,4 @@
-import { Prisma } from "@prisma/client";
 import { db } from "./db";
-import { DefaultArgs } from "@prisma/client/runtime/library";
 
 export async function fetchMyGroups(id: string) {
   try {
@@ -165,62 +163,6 @@ export async function deleteGroup(groupId: string) {
   }catch (e) {
     console.error(e);
     throw new Error("Failed to delete group")
-  }
-}
-
-const TOTAL_NOTIFICATIONS = 10
-
-export async function fetchMyNotifications (userId: string, cursor?: number) {
-  try {
-
-    let notifications;
-
-    if (cursor) {
-      notifications = await db.notification.findMany({
-        where: {
-          userId
-        },
-        select: {
-          group: {
-            select: {
-              id: true,
-              title: true
-            }
-          }
-        },
-        take: TOTAL_NOTIFICATIONS,
-        skip: 1,
-        cursor: {
-          id: cursor
-        }
-      })
-    }else {
-      notifications = await db.notification.findMany({
-        where: {
-          userId
-        },
-        select: {
-          group: {
-            select: {
-              id: true,
-              title: true
-            }
-          }
-        },
-        take: TOTAL_NOTIFICATIONS
-      })
-    }
-
-    const nextCursor = notifications.length === TOTAL_NOTIFICATIONS
-      ? notifications[notifications.length - 1].group.id : null;
-
-    return {
-      notifications,
-      nextCursor
-    }
-  }catch (e) {
-    console.error(e);
-    throw new Error("Failed to fetch my notifications")
   }
 }
 

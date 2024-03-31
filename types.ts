@@ -17,6 +17,11 @@ export type ApiNotificationsResponse = {
       title: string;
     };
     created_at: Date;
+    type: 'expulsado' | 'solicitud';
+    userEmisor: {
+      id: string;
+      name: string;
+    };
   }[],
   nextCursor: null | number;
 }

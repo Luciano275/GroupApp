@@ -10,18 +10,15 @@ import { InfiniteData, QueryObserverResult, RefetchOptions, useQueryClient } fro
 import { ApiNotificationsResponse } from "@/types";
 
 export default function DeleteNotificationButton(
-  {id, refetch, userId}
+  {id, refetch}
   :{
     id: number;
     refetch: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<InfiniteData<ApiNotificationsResponse, unknown>, Error>>;
-    userId: string;
   }
 ) {
 
   const { setLoading } = useLoading()
   const { setError } = useGlobalError()
-  const { refresh } = useRouter();
-  const queryClient = useQueryClient()
 
   const handleDelete = async () => {
 

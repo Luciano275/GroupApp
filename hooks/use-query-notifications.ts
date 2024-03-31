@@ -1,4 +1,3 @@
-import { fetchMyNotifications } from "@/lib/data"
 import { ApiNotificationsResponse } from "@/types"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import qs from 'query-string'

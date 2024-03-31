@@ -16,7 +16,7 @@ export default function ErrorPage(
   }, [error])
 
   return (
-    <main className="p-4 flex flex-col justify-center items-center">
+    <main className="p-4 min-h-dvh max-h-dvh flex flex-col justify-center items-center">
       <h1 className="py-4 text-center text-3xl">Something went wrong ☹️</h1>
       <button
         onClick={() => reset()}

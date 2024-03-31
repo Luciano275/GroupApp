@@ -3,6 +3,11 @@ import { fetchGroupById } from "@/lib/data";
 import { notFound } from 'next/navigation'
 import { BiInfoCircle } from "react-icons/bi";
 import EditGroupForm from "./Form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Editar tu grupo"
+}
 
 export default async function EditGroup(
   {params}: {params: {id: string}}

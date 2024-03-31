@@ -25,7 +25,14 @@ export async function GET(req: Request) {
               title: true
             }
           },
-          created_at: true
+          created_at: true,
+          type: true,
+          userEmisor: {
+            select: {
+              id: true,
+              name: true
+            }
+          }
         },
         take: TOTAL_NOTIFICATIONS,
         skip: 1,
@@ -46,7 +53,14 @@ export async function GET(req: Request) {
               title: true
             }
           },
-          created_at: true
+          created_at: true,
+          type: true,
+          userEmisor: {
+            select: {
+              id: true,
+              name: true
+            }
+          }
         },
         take: TOTAL_NOTIFICATIONS
       })

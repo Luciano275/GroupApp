@@ -3,13 +3,9 @@
 import { Dropdown } from "flowbite-react";
 import { Session } from "next-auth";
 import Logout from "../logout";
-import { IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
 import { useState } from "react";
-import { getTotalNotifications, tiempoTranscurrido } from "@/lib/utils";
+import { getTotalNotifications } from "@/lib/utils";
 import { useQueryNotifications } from "@/hooks/use-query-notifications";
-import { Fragment } from "react";
-import DeleteNotificationButton from "../notifications/delete-notification";
-import Spinner from "@/components/Spinner";
 import NotificationButton from "../notifications/button";
 import NotificationContainer from "../notifications/container";
 import NotificationContent from "../notifications/content";
@@ -45,7 +41,6 @@ export default function NavContent(
           hasNextPage={hasNextPage}
           isFetchingNextPage={isFetchingNextPage}
           refetch={refetch}
-          userId={userId}
         />
       </NotificationContainer>
 
