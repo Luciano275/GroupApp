@@ -9,7 +9,7 @@ const Group = () => {
 
 export const GroupSkeleton = () => {
   return (
-    <div className="flex justify-center items-center gap-5 flex-wrap">
+    <div className="flex items-center gap-5 flex-wrap">
       <Group />
       <Group />
       <Group />

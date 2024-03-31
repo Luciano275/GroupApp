@@ -1,7 +1,10 @@
 import type { Config } from "tailwindcss";
+import miduAnimations from '@midudev/tailwind-animations'
+import flowbite from 'flowbite/plugin'
 
 const config: Config = {
   content: [
+    "./node_modules/flowbite/**/*.js",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -15,6 +18,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    miduAnimations,
+    flowbite
+  ],
 };
 export default config;

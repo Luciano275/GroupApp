@@ -13,7 +13,7 @@ export default function GroupButtons () {
   }
 
   return (
-    <div className="flex gap-5 flex-wrap justify-center items-center">
+    <div className="flex gap-5 flex-wrap items-center">
       <button
         onClick={() => openModal('join')}
         className="bg-blue-600 w-fit px-4 py-1 rounded flex gap-x-2 justify-center items-center hover:bg-blue-800"

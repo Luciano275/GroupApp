@@ -67,8 +67,6 @@ export default function EditGroupForm(
       <button className="p-2 rounded bg-gray-700 hover:bg-gray-900">Guardar</button>
       
       <FormErrorMessage state={state} />
-
-      <Link href="/groups" className="text-blue-200 hover:text-blue-300 text-center text-sm">Volver al inicio</Link>
     </form>
   )
 }
