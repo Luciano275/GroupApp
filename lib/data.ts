@@ -103,6 +103,30 @@ export async function belongGroup(groupId: string, userId: string) {
             ]
           }
         ]
+      },
+      select: {
+        id: true,
+        title: true,
+        code: true,
+        members: {
+          select: {
+            id: true,
+            user: {
+              select: {
+                name: true,
+                email: true,
+                image: true,
+              }
+            }
+          }
+        },
+        teacher: {
+          select: {
+            name: true,
+            email: true,
+            image: true
+          }
+        }
       }
     })
 
@@ -125,6 +149,17 @@ export async function fetchGroupById(groupId: string, userId: string) {
             userId
           }
         ]
+      },
+      select: {
+        id: true,
+        title: true,
+        teacher: {
+          select: {
+            name: true,
+            email: true,
+            image: true
+          }
+        }
       }
     })
 
@@ -181,5 +216,59 @@ export async function updateGroup(id: number, title: string) {
   }catch (e) {
     console.error(e);
     throw new Error("Failed to update group")
+  }
+}
+
+export async function fetchMembersByGroup (groupId: string) {
+  try {
+
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+    
+    const results = await db.member.findMany({
+      where: {
+        groupId: Number(groupId) || -1
+      },
+      select: {
+        id: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true
+          }
+        }
+      }
+    })
+
+    return results;
+  }catch (e) {
+    console.error(e);
+    throw new Error("Failed to fetch members")
+  }
+}
+
+export async function fetchOwnerByGroup(groupId: string) {
+  try {
+    const owner = await db.group.findFirst({
+      where: {
+        id: Number(groupId) || -1
+      },
+      select: {
+        teacher: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true
+          }
+        }
+      }
+    })
+
+    return owner;
+  }catch (e) {
+    console.error(e);
+    throw new Error('Failed to fetch owner')
   }
 }

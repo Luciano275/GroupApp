@@ -6,7 +6,7 @@ export default async function MyGroups ({userId}: {userId: string}) {
   const groups = await fetchMyGroups(userId)
 
   return (
-    <section className="flex items-center gap-5 flex-wrap">
+    <section className="flex items-center gap-5 flex-wrap justify-center">
       {groups.map((group) => (
         <GroupCard
           key={group.id}

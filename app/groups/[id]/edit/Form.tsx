@@ -5,7 +5,6 @@ import FormErrorMessage from "@/components/ui/FormErrorMessage";
 import ErrorMessage from "@/components/ui/form-error";
 import { updateGroupAction } from "@/lib/actions";
 import { ResponseGroupAction } from "@/types";
-import Link from "next/link";
 import React, { useState } from "react";
 import { useLoading } from "@/components/providers/LoadingProvider";
 
@@ -15,8 +14,11 @@ export default function EditGroupForm(
     group: {
       id: number;
       title: string;
-      code: string;
-      userId: string;
+      teacher: {
+        name: string | null;
+        email: string | null;
+        image: string | null;
+      };
     }
   }
 ) {

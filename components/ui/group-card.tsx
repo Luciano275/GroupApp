@@ -87,7 +87,7 @@ export default function GroupCard (
   const handleClick = () => push(`/groups/${id}`)
 
   return (
-    <article className="bg-gradient-to-tr from-violet-700 to-fuchsia-800 hover:to-fuchsia-700 rounded p-4 w-full max-w-[420px] cursor-pointer h-[150px] flex flex-col">
+    <article className="bg-gradient-to-tr from-violet-700 to-fuchsia-800 hover:to-fuchsia-700 rounded p-4 w-full max-w-[380px] cursor-pointer h-[150px] flex flex-col">
       <h2
         onClick={handleClick}
         className="text-2xl py-2 w-full max-w-[30ch] overflow-hidden whitespace-nowrap text-ellipsis hover:underline"
