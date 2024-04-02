@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+//@ts-ignore
 import miduAnimations from '@midudev/tailwind-animations'
 import flowbite from 'flowbite/plugin'
 
