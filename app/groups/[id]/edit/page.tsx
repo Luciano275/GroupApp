@@ -22,7 +22,7 @@ export default async function EditGroup(
   }
 
   return (
-    <main className="px-4 py-7">
+    <section className="px-4 py-7 animate-blurred-fade-in">
       <div className="w-full max-w-[400px] mx-auto flex flex-col gap-y-5">
         <div className="p-4 rounded bg-yellow-300 bg-opacity-50">
           <p className="flex gap-2 items-center justify-center">
@@ -35,6 +35,6 @@ export default async function EditGroup(
           group={group}
         />
       </div>
-    </main>
+    </section>
   )
 }

@@ -35,6 +35,13 @@ export default function NavContent(
       />
 
       <NotificationContainer show={show}>
+        {
+          !totalNotifications && (
+            <div className="flex flex-1 justify-center items-center">
+              <p>Todavía no tienes notificaciones</p>
+            </div>
+          )
+        }
         <NotificationContent
           data={data}
           fetchNextPage={fetchNextPage}

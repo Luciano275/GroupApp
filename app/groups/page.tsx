@@ -18,7 +18,7 @@ export default async function Groups ({
   const deleteGroup = searchParams?.delete_group || ''
 
   return (
-    <main className="p-8 min-h-dvh max-h-dvh overflow-x-hidden overflow-y-auto">
+    <main className="p-8 grow overflow-x-hidden overflow-y-auto">
       <div className="py-5 mb-5 flex flex-col gap-y-6">
         <GroupButtons />
       </div>

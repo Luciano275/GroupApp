@@ -3,27 +3,37 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const generateLinks = (groupId: string) => ([
-  {
-    href: `/groups/${groupId}`,
-    label: 'Mensajes'
-  },
-  {
-    href: `/groups/${groupId}/members`,
-    label: 'Miembros'
-  }
-])
+const generateLinks = (groupId: string, isOwner: boolean) => {
+  const links = [
+    {
+      href: `/groups/${groupId}`,
+      label: 'Mensajes'
+    },
+    {
+      href: `/groups/${groupId}/members`,
+      label: 'Miembros'
+    }
+  ]
+
+  if (isOwner) links.push({
+    href: `/groups/${groupId}/edit`,
+    label: "Editar"
+  })
+
+  return links;
+}
 
 export default function GroupLinks (
-  {groupId}
+  {groupId, isOwner}
   : {
     groupId: string;
+    isOwner: boolean;
   }
 ) {
 
   const pathname = usePathname();
 
-  const LINKS = generateLinks(groupId)
+  const LINKS = generateLinks(groupId, isOwner)
   
   return (
     <div className="flex justify-center items-center gap-4 mt-5">

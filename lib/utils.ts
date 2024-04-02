@@ -37,7 +37,9 @@ export const getTotalNotifications = (data: InfiniteData<ApiNotificationsRespons
   if (data && data.pages && data.pages.length && data.pages[0].notifications.length > 0) {
     const lengths = [...data.pages.map(({notifications}) => notifications.length)]
 
-    return lengths.reduce((a,b) => a+b, 0)
+    const total = lengths.reduce((a,b) => a+b, 0)
+
+    return total === 0 ? null : total;
   }
   return null;
 }

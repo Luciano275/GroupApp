@@ -13,9 +13,7 @@ export const GroupSkeleton = () => {
       <Group />
       <Group />
       <Group />
-      <Group />
 
-      <Group />
       <Group />
       <Group />
       <Group />

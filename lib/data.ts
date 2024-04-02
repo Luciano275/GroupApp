@@ -108,6 +108,7 @@ export async function belongGroup(groupId: string, userId: string) {
         id: true,
         title: true,
         code: true,
+        userId: true,
         members: {
           select: {
             id: true,
