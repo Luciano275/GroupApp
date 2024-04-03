@@ -27,6 +27,7 @@ export default async function Members(
         image={owner?.teacher.image!}
         isOwner={isOwner}
         userId={userId}
+        groupId={Number(groupId)}
       />
       
       <div className="h-[1px] bg-neutral-800"></div>
@@ -40,6 +41,8 @@ export default async function Members(
             image={image!}
             isOwner={isOwner}
             userId={userId}
+            memberId={memberId}
+            groupId={Number(groupId)}
             key={`${memberId}:${id}`}
           />
         ))

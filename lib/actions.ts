@@ -5,7 +5,7 @@ import { TypeModal } from "@/components/providers/ModalProvider";
 import { DEFAULT_REDIRECT } from "@/routes";
 import { ResponseGroupAction } from "@/types";
 import { z } from 'zod'
-import { createGroup, deleteGroup, fetchGroupByCode, fetchMyGroups, joinToGroup, updateGroup } from "./data";
+import { createGroup, deleteGroup, fetchGroupByCode, fetchMyGroups, joinToGroup, skorsMember, updateGroup } from "./data";
 import { revalidatePath } from "next/cache";
 import { generateRandomCode } from "./utils";
 
@@ -188,6 +188,26 @@ export async function updateGroupAction(id: number, formData: FormData): Promise
 
   return {
     message: 'El grupo ha sido actualizado!',
+    success: true
+  }
+}
+
+export async function skorsMemberAction(memberId: number, ownerId: string, groupId: number): Promise<ResponseGroupAction> {
+
+  try {
+    await skorsMember(memberId, ownerId, groupId);
+  }catch (e) {
+    console.error(e)
+    return {
+      message: 'Fallo al expulsar al usuario',
+      success: false
+    }
+  }
+
+  revalidatePath('/groups/[id]/members', 'page')
+
+  return {
+    message: 'El miembro ha sido expulsado',
     success: true
   }
 }

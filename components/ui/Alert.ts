@@ -8,7 +8,7 @@ export const QuestionAlert = async () => {
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Si, borralo",
+    confirmButtonText: "Si",
     background: "#222",
     color: '#fff'
   }).then(async (result) => {

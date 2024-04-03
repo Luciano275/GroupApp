@@ -273,3 +273,52 @@ export async function fetchOwnerByGroup(groupId: string) {
     throw new Error('Failed to fetch owner')
   }
 }
+
+export async function skorsMember(memberId: number, userId: string, groupId: number) {
+  try {
+    const member = await db.member.findFirst({
+      select: {
+        user: {
+          select: {
+            name: true,
+            id: true
+          }
+        }
+      },
+      where: {
+        AND: [
+          {
+            id: memberId
+          },
+          {
+            group: {
+              userId
+            }
+          }
+        ]
+      }
+    })
+
+    if (!member) return null;
+
+    await db.member.delete({
+      where: {
+        id: memberId
+      }
+    })
+
+    await db.notification.create({
+      data: {
+        groupId,
+        userId: member.user.id,
+        emisor: userId,
+        type: 'expulsado'
+      }
+    })
+
+    return member;
+  }catch (e){
+    console.error(e);
+    throw new Error('Failed to skors member')
+  }
+}

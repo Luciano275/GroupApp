@@ -1,7 +1,7 @@
 import DeleteMember from "./delete-member";
 
 export default function Member(
-  { name, email, image, isOwner, userId, id }
+  { name, email, image, isOwner, userId, id, memberId, groupId }
   : {
     name: string;
     email: string;
@@ -9,6 +9,8 @@ export default function Member(
     isOwner: boolean;
     userId: string;
     id: string;
+    memberId?: number;
+    groupId: number;
   }
 ) {
   return (
@@ -25,7 +27,7 @@ export default function Member(
         <p className="text-sm text-neutral-400">{email}</p>
       </div>
       
-      { (isOwner && userId !== id) && <DeleteMember /> }
+      { (isOwner && userId !== id && memberId) && <DeleteMember groupId={groupId} memberId={memberId} userId={userId} /> }
     </article>
   )
 }
