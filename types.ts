@@ -1,3 +1,7 @@
+import { NextApiResponse } from "next";
+import { Socket, Server as NetServer } from 'net'
+import { Socket as SocketIOServer } from 'socket.io'
+
 export type ResponseErrors = {
   title?: string[];
   code?: string[];
@@ -31,4 +35,12 @@ export type ReactQueryNotificationsResponse = {
     notifications: ApiNotificationsResponse[],
   }[]
   pageParams: Number[]
+}
+
+export type NextApiResponseServerIo = NextApiResponse & {
+  socket: Socket & {
+    server: NetServer & {
+      io: SocketIOServer
+    }
+  }
 }

@@ -9,24 +9,34 @@ import { useQueryNotifications } from "@/hooks/use-query-notifications";
 import NotificationButton from "../notifications/button";
 import NotificationContainer from "../notifications/container";
 import NotificationContent from "../notifications/content";
+import { useSocket } from "@/components/providers/SocketProvider";
 
 export default function NavContent(
-  {session}
-  : {
-    session: Session
-  }
+  { session }
+    : {
+      session: Session
+    }
 ) {
 
-  const [ show, setShow ] = useState(false);
+  const { isConnected } = useSocket()
+  const [show, setShow] = useState(false);
 
   const userId = session.user?.id!;
 
-  const { data, fetchNextPage, status, hasNextPage, isFetchingNextPage, refetch } = useQueryNotifications({userId, apiUrl: '/api/notifications'})
-  
+  const { data, fetchNextPage, status, hasNextPage, isFetchingNextPage, refetch } = useQueryNotifications({ userId, apiUrl: '/api/notifications' })
+
   const totalNotifications = getTotalNotifications(data);
 
   return (
     <>
+
+      <div className="flex justify-center items-center">
+        <span
+          title={isConnected ? 'El socket está funcionando' : 'El socket no está funcionando'}
+          className={`w-[20px] h-[20px] rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-600'}`}
+        ></span>
+      </div>
+
       <NotificationButton
         show={show}
         setShow={setShow}
@@ -73,7 +83,7 @@ export default function NavContent(
           </Dropdown.Item>
         </Dropdown>
       </div>
-      
+
     </>
   )
 }
