@@ -22,13 +22,20 @@ export const useQueryNotifications = ({userId, apiUrl}: {userId: string, apiUrl:
 
   }
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status, refetch } = useInfiniteQuery({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+    refetch,
+  } = useInfiniteQuery({
     queryKey: [`notifications:${userId}`],
     initialPageParam: 1,
     queryFn: getNotifications,
     getNextPageParam: (lastPage) => lastPage?.nextCursor,
-    refetchInterval: 5000
-  })
+    refetchInterval: 5000,
+  });
 
   return {
     data,
