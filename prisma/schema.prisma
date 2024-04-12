@@ -43,16 +43,18 @@ model User {
   teacherGroups Group[]
   notifactions  Notification[] @relation("receptor")
   emisor        Notification[] @relation("emisor")
+  messageEmisor GroupMessage[]
 }
 
 model Group {
-  id      Int            @id @default(autoincrement()) @db.Integer
-  title   String
-  code    String
-  userId  String
-  members Member[]
-  teacher User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  history Notification[]
+  id       Int            @id @default(autoincrement()) @db.Integer
+  title    String
+  code     String
+  userId   String
+  members  Member[]
+  teacher  User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  history  Notification[]
+  messages GroupMessage[]
 }
 
 model Notification {
@@ -73,4 +75,14 @@ model Member {
   userId  String
   group   Group  @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model GroupMessage {
+  id         String   @id @default(cuid())
+  emisor     String
+  group_id   Int
+  message    String
+  created_at DateTime @default(now())
+  group      Group    @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  emisorUser User     @relation(fields: [emisor], references: [id], onUpdate: Cascade)
 }
