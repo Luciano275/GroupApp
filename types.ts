@@ -44,3 +44,28 @@ export type NextApiResponseServerIo = NextApiResponse & {
     }
   }
 }
+
+export type ApiGroupMessagesResponse = {
+  messages: {
+      group: {
+          id: number;
+          title: string;
+      };
+      id: string;
+      message: string;
+      created_at: Date;
+      emisorUser: {
+          name: string | null;
+          email: string | null;
+          image: string | null;
+      };
+  }[];
+  nextCursor: null | number;
+}
+
+export type ReactQueryGroupMessagesResponse = {
+  pages?: {
+    messages: ApiGroupMessagesResponse[];
+  }
+  pageParams: Number[]
+}
