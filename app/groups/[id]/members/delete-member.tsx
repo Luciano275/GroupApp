@@ -5,6 +5,7 @@ import { QuestionAlert } from "@/components/ui/Alert";
 import { skorsMemberAction } from "@/lib/actions";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FaUserMinus } from "react-icons/fa";
+import { URLSearchParams } from "url";
 
 export default function DeleteMember(
   { memberId, userId, groupId }
@@ -30,7 +31,7 @@ export default function DeleteMember(
       setLoading(false);
 
       if (results.success) {
-        const params = new URLSearchParams(searchParams);
+        const params = new URLSearchParams(searchParams as URLSearchParams)
 
         if (params.get('delete_member')) {
           params.delete('delete_member')
@@ -41,7 +42,6 @@ export default function DeleteMember(
         replace(`${pathname}?${params.toString()}`)
       }
 
-      
     }
   }
 

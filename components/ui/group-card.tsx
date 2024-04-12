@@ -5,7 +5,6 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { BiPencil } from "react-icons/bi";
 import { FaTrash } from "react-icons/fa";
-import Swal from 'sweetalert2'
 import { useLoading } from "../providers/LoadingProvider";
 import Link from 'next/link'
 import { QuestionAlert } from "./Alert";
@@ -14,7 +13,7 @@ const Actions = ({groupId}: {groupId: number}) => {
 
   const [pending, setPending] = useState(false);
 
-  const { loading, setLoading } = useLoading()
+  const { setLoading } = useLoading()
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
