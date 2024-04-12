@@ -6,6 +6,39 @@ import { ApiNotificationsResponse } from "@/types";
 import MoreNotifications from "./more";
 import AcceptRequestNotification from "./accept-request";
 
+function NotificationText(
+  { type, userEmisorName, group }
+  : {
+    type: 'expulsado' | 'solicitud' | 'mensaje';
+    group: string;
+    userEmisorName: string;
+  }
+) {
+  
+  if (type === 'expulsado') return (
+    <>
+      <span className="font-semibold">{userEmisorName}</span> te ha expulsado del grupo{" "}
+      <span className="font-bold">{group}</span>
+    </>
+  )
+
+  if (type === 'solicitud') return (
+    <>
+      <span className="font-semibold">{userEmisorName}</span> te ha enviado una solicitud de amistad
+    </>
+  )
+
+  if (type === 'mensaje') return (
+    <>
+      <span className="font-semibold">{userEmisorName}</span> ha enviado un mensaje en el grupo{" "}
+      <span className="font-bold">{group}</span>
+    </>
+  )
+
+  return <Fragment />
+
+}
+
 export default function NotificationContent(
   { data, refetch, hasNextPage, fetchNextPage, isFetchingNextPage }
   : {
@@ -21,33 +54,30 @@ export default function NotificationContent(
       <Fragment key={`${index}:${index+1}`}>
         {
           notifications.map(({ id, group, created_at, type, userEmisor: { id: userEmisorId, name: userEmisorName } }) => (
+
             <div key={`${id}:${created_at}`} className="p-2 bg-violet-950 hover:bg-purple-950 rounded-xl flex flex-col">
               <p className="text-xs text-neutral-400 font-semibold">
                 {tiempoTranscurrido(created_at.toString())}
               </p>
+
               <div className="flex items-center">
                 <p className="text-sm grow pr-1 text-balance">
-                  {
-                    type === 'expulsado'
-                    ? (
-                      <>
-                        <span className="font-semibold">{userEmisorName}</span> te ha expulsado del grupo{" "}
-                        <span className="font-bold">{group.title}</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="font-semibold">{userEmisorName}</span> te ha enviado una solicitud de amistad
-                      </>
-                    )
-                  }
+                  <NotificationText
+                    group={group.title}
+                    type={type}
+                    userEmisorName={userEmisorName}
+                  />
                 </p>
                 
                 <div className="flex flex-col justify-center items-center gap-y-2">
                   { type === 'solicitud' && <AcceptRequestNotification id={id} /> }
+
                   <DeleteNotificationButton id={id} refetch={refetch} />
                 </div>
+
               </div>
             </div>
+
           ))
         }
         

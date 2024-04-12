@@ -2,6 +2,7 @@ import { fetchMembersByGroup, fetchOwnerByGroup } from "@/lib/data"
 import Member from "./Member";
 import { auth } from "@/auth";
 import { Fragment } from "react";
+import { Divider } from "../divider";
 
 export default async function Members(
   { groupId }
@@ -30,7 +31,7 @@ export default async function Members(
         groupId={Number(groupId)}
       />
       
-      <div className="h-[1px] bg-neutral-800"></div>
+      <Divider />
 
       {
         members.map(({ id: memberId, user: { id, image, name, email } }) => (

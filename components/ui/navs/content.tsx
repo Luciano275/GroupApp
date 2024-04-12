@@ -32,7 +32,7 @@ export default function NavContent(
 
       <div className="flex justify-center items-center">
         <span
-          title={isConnected ? 'El socket está funcionando' : 'El socket no está funcionando'}
+          title={isConnected ? 'Online' : 'Offline'}
           className={`w-[20px] h-[20px] rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-600'}`}
         ></span>
       </div>
