@@ -1,14 +1,13 @@
 'use client';
 
 import { deleteGroupAction } from "@/lib/actions";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { BiPencil } from "react-icons/bi";
 import { FaTrash } from "react-icons/fa";
 import { useLoading } from "../providers/LoadingProvider";
 import Link from 'next/link'
 import { QuestionAlert } from "./Alert";
-import { URLSearchParams } from "url";
 
 const Actions = ({groupId}: {groupId: number}) => {
 
@@ -16,7 +15,6 @@ const Actions = ({groupId}: {groupId: number}) => {
 
   const { setLoading } = useLoading()
 
-  const searchParams = useSearchParams();
   const pathname = usePathname();
   const {replace} = useRouter();
 
@@ -34,7 +32,7 @@ const Actions = ({groupId}: {groupId: number}) => {
       setPending(false)
       setLoading(false)
       if (results.success) {
-        const params = new URLSearchParams(searchParams as URLSearchParams)
+        const params = new URLSearchParams(window.location.toString())
 
         if (params.get('delete_group')) {
           params.delete('delete_group')

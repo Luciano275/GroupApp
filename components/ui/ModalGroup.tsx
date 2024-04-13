@@ -6,11 +6,9 @@ import { Modal, Box, Typography } from "@mui/material"
 import { ResponseGroupAction } from "@/types"
 import { createGroupAction, joinToGroupAction } from "@/lib/actions"
 import ErrorMessage from "./form-error"
-import { CiCircleCheck, CiWarning } from "react-icons/ci"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import Spinner from "../Spinner"
 import FormErrorMessage from "./FormErrorMessage"
-import { URLSearchParams } from "url"
 
 const ModalCreate = ({inputClassName, state, setGroupName}: {inputClassName: string; state: ResponseGroupAction; setGroupName: Dispatch<SetStateAction<string>>}) => {
   return (
@@ -65,7 +63,6 @@ export default function ModalGroup({userId}: {userId: string;}) {
   const { state, setState } = useModalState();
   
   const [ pending, setPending ] = useState<boolean>(false);
-  const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
@@ -78,7 +75,7 @@ export default function ModalGroup({userId}: {userId: string;}) {
   const handleSubmit = async (type: TypeModal, e: React.FormEvent) => {
     e.preventDefault();
 
-    const params = new URLSearchParams(searchParams as URLSearchParams);
+    const params = new URLSearchParams(window.location.toString())
 
     if (type === 'create') {
       const formData = new FormData();

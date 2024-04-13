@@ -3,9 +3,8 @@
 import { useLoading } from "@/components/providers/LoadingProvider";
 import { QuestionAlert } from "@/components/ui/Alert";
 import { skorsMemberAction } from "@/lib/actions";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FaUserMinus } from "react-icons/fa";
-import { URLSearchParams } from "url";
 
 export default function DeleteMember(
   { memberId, userId, groupId }
@@ -18,7 +17,6 @@ export default function DeleteMember(
 
   const { setLoading } = useLoading()
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const { replace } = useRouter();
 
   const handleClick = async () => {
@@ -31,7 +29,7 @@ export default function DeleteMember(
       setLoading(false);
 
       if (results.success) {
-        const params = new URLSearchParams(searchParams as URLSearchParams)
+        const params = new URLSearchParams(window.location.toString())
 
         if (params.get('delete_member')) {
           params.delete('delete_member')
