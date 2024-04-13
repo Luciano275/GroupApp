@@ -7,7 +7,7 @@ import { CiWarning } from "react-icons/ci";
 export default function AuthError() {
 
   const params = useSearchParams();
-  const errorMsg = params.get('error') === 'OAuthAccountNotLinked' ? 'Ya existe un email registrado con otro proveedor' : null
+  const errorMsg = params?.get('error') === 'OAuthAccountNotLinked' ? 'Ya existe un email registrado con otro proveedor' : null
 
   const [ error, setError ] = useState<string | null>(errorMsg)
 

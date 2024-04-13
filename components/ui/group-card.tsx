@@ -8,6 +8,7 @@ import { FaTrash } from "react-icons/fa";
 import { useLoading } from "../providers/LoadingProvider";
 import Link from 'next/link'
 import { QuestionAlert } from "./Alert";
+import { URLSearchParams } from "url";
 
 const Actions = ({groupId}: {groupId: number}) => {
 
@@ -33,7 +34,7 @@ const Actions = ({groupId}: {groupId: number}) => {
       setPending(false)
       setLoading(false)
       if (results.success) {
-        const params = new URLSearchParams(searchParams)
+        const params = new URLSearchParams(searchParams as URLSearchParams)
 
         if (params.get('delete_group')) {
           params.delete('delete_group')
