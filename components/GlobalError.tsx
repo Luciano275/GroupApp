@@ -10,7 +10,7 @@ export default function GlobalError () {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center py-4 px-2">
+      <div className="flex justify-center items-center py-4 px-2 absolute left-0 right-0 z-10">
         <p className="w-fit max-w-[450px] font-semibold bg-red-600 bg-opacity-40 py-4 pl-4 pr-9 rounded text-center flex gap-x-2 items-center relative">
           <CiWarning size={30} />
           {error}

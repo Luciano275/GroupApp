@@ -1,5 +1,5 @@
 import { ApiNotificationsResponse, ReactQueryNotificationsResponse } from "@/types";
-import { InfiniteData } from "@tanstack/react-query";
+import { InfiniteData, QueryClient } from "@tanstack/react-query";
 
 export const generateRandomCode = () => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -42,4 +42,8 @@ export const getTotalNotifications = (data: InfiniteData<ApiNotificationsRespons
     return total === 0 ? null : total;
   }
   return null;
+}
+
+export const clearMessages = (queryClient: QueryClient) => {
+  queryClient.clear()
 }

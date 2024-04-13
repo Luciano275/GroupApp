@@ -45,27 +45,28 @@ export type NextApiResponseServerIo = NextApiResponse & {
   }
 }
 
+export type GroupMessageType = {
+  group: {
+      id: number;
+      title: string;
+  };
+  id: string;
+  message: string;
+  created_at: Date;
+  status?: string | null;
+  emisorUser: {
+      id: string | null;
+      name: string | null;
+      email: string | null;
+      image: string | null;
+  };
+}
 export type ApiGroupMessagesResponse = {
-  messages: {
-      group: {
-          id: number;
-          title: string;
-      };
-      id: string;
-      message: string;
-      created_at: Date;
-      emisorUser: {
-          name: string | null;
-          email: string | null;
-          image: string | null;
-      };
-  }[];
+  messages: GroupMessageType[];
   nextCursor: null | number;
 }
 
 export type ReactQueryGroupMessagesResponse = {
-  pages?: {
-    messages: ApiGroupMessagesResponse[];
-  }
-  pageParams: Number[]
+  pages?: ApiGroupMessagesResponse[]
+  pageParams?: Number[]
 }

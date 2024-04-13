@@ -24,7 +24,7 @@ export default async function GroupLayout(
   const isOwner = group.userId === userId;
 
   return (
-    <main className="p-4 overflow-x-hidden overflow-y-auto grow">
+    <main className="p-4 overflow-x-hidden overflow-y-auto grow flex flex-col">
       <header className="py-5">
         <h1 className="text-3xl text-center">{group.title}</h1>
         <h3 className="text-center text-neutral-400 py-2">

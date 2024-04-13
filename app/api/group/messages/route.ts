@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { belongGroup } from "@/lib/data";
 import { db } from "@/lib/db";
-import { ApiGroupMessagesResponse } from "@/types";
+import { GroupMessageType } from "@/types";
 
 const TOTAL_MESSAGES = 20
 
@@ -21,18 +21,20 @@ export const GET = async (req: Request) => {
       return Response.json({message: 'No tienes permitido realizar esta acción'}, { status: 403 })
     }
 
-    let allMessages: ApiGroupMessagesResponse['messages'] = []
+    let allMessages: GroupMessageType[] = []
 
     if (cursor && Number(cursor)-1 > 0) {
       allMessages = await db.groupMessage.findMany({
         select: {
           id: true,
           created_at: true,
+          status: true,
           emisorUser: {
             select: {
               name: true,
               email: true,
-              image: true
+              image: true,
+              id: true,
             }
           },
           group: {
@@ -60,8 +62,10 @@ export const GET = async (req: Request) => {
         select: {
           id: true,
           created_at: true,
+          status: true,
           emisorUser: {
             select: {
+              id: true,
               name: true,
               email: true,
               image: true

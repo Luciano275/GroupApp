@@ -83,6 +83,7 @@ model GroupMessage {
   group_id   Int
   message    String
   created_at DateTime @default(now())
+  status     String?
   group      Group    @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   emisorUser User     @relation(fields: [emisor], references: [id], onUpdate: Cascade)
 }

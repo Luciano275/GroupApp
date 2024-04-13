@@ -46,6 +46,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
         emisor: userId.toString(),
         group_id: id,
         message
+      },
+      select: {
+        group: {
+          select: {
+            id: true,
+            title: true
+          }
+        },
+        id: true,
+        message: true,
+        created_at: true,
+        status: true,
+        emisorUser: {
+          select: {
+            name: true,
+            email: true,
+            image: true,
+            id: true
+          }
+        }
       }
     })
 
@@ -59,7 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
             data: {
               groupId: id,
               userId,
-              emisor: userId.toString(),
+              emisor: belong.userId,
               type: 'mensaje'
             }
           })
@@ -68,7 +88,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
 
     }
 
-    res.socket.server.io.emit(`chat:${id}:messages`)
+    res.socket.server.io.emit(`chat:${id}:messages`, newMessage)
 
     return res.json({newMessage})
 

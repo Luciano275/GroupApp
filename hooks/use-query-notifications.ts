@@ -34,7 +34,7 @@ export const useQueryNotifications = ({userId, apiUrl}: {userId: string, apiUrl:
     initialPageParam: 1,
     queryFn: getNotifications,
     getNextPageParam: (lastPage) => lastPage?.nextCursor,
-    refetchInterval: 5000,
+    refetchInterval: 2000,
   });
 
   return {
