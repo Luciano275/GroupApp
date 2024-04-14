@@ -42,7 +42,7 @@ export const useQueryGroupMessages = ({userId, groupId, apiUrl}: { userId: strin
     initialPageParam: 1,
     queryFn: getMessages,
     getNextPageParam: (lastPage) => lastPage?.nextCursor,
-    refetchInterval: !socket ? 2000 : false
+    refetchInterval: 1000
   })
 
   return {

@@ -24,7 +24,7 @@ export default function GroupMessages(
   const { setError } = useGlobalError()
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch, status, isLoading, error, isPending, fetchStatus } = useQueryGroupMessages({ apiUrl, groupId, userId });
-  useChatGroupSocket({addKey, queryKey})
+  //useChatGroupSocket({addKey, queryKey})
 
   if (fetchStatus === 'fetching' || isLoading || isPending) {
     return (
