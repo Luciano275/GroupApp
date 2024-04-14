@@ -26,18 +26,12 @@ export const SocketProvider = (
   const [socket, setSocket] = useState<any>(null);
 
   useEffect(() => {
-    // const socketInstance = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
-    //   path: '/api/socket/io',
-    //   addTrailingSlash: false
-    // })
-
-    const socketInstance = ClientIO({
+    const socketInstance = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
       path: '/api/socket/io',
-      addTrailingSlash: false,
-      secure: process.env.NODE_ENV !== 'production' ? false : true
+      addTrailingSlash: false
     })
 
-    socketInstance.on('connection', () => {
+    socketInstance.on('connect', () => {
       setIsConnected(true)
     })
 
