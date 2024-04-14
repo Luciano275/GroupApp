@@ -37,7 +37,7 @@ export const SocketProvider = (
       secure: process.env.NODE_ENV !== 'production' ? false : true
     })
 
-    socketInstance.on('connect', () => {
+    socketInstance.on('connection', () => {
       setIsConnected(true)
     })
 

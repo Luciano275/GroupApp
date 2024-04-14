@@ -9,6 +9,14 @@ import { Divider } from "./divider";
 import { useChatGroupSocket } from "@/hooks/use-chat-group-socket";
 import { useGlobalError } from "@/components/providers/GlobalErrorProvider";
 
+const LoadingSpinner = () => {
+  return (
+    <div className="flex justify-center items-center">
+      <Spinner width={50} height={50} />
+    </div>
+  )
+}
+
 export default function GroupMessages(
   { apiUrl, groupId, userId }
   : {
@@ -27,11 +35,7 @@ export default function GroupMessages(
   useChatGroupSocket({addKey, queryKey})
 
   if (fetchStatus === 'fetching' || isLoading || isPending) {
-    return (
-      <div className="flex justify-center items-center">
-        <Spinner width={50} height={50} />
-      </div>
-    )
+    return <LoadingSpinner />
   }
 
   if (status === 'error') setError(error?.message!)
