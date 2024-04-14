@@ -26,21 +26,26 @@ export const SocketProvider = (
   const [socket, setSocket] = useState<any>(null);
 
   useEffect(() => {
-    const socketInstance = io(process.env.NEXT_PUBLIC_SITE_URL!, {
+    const socketInstance = io('http://localhost:3000', {
       path: '/api/socket/io',
-      addTrailingSlash: false
     })
 
-    socketInstance.on('connect', () => {
-      setIsConnected(true)
-    })
+    // socketInstance.on('connect', () => {
+    //   setIsConnected(true)
+    // })
 
-    socketInstance.on('disconnect', () => {
-      setIsConnected(false)
-    })
+    // socketInstance.on('disconnect', () => {
+    //   setIsConnected(false)
+    // })
 
+    // socketInstance.on("connect_error", async err => {
+    //   console.log(`connect_error due to ${err}`)
+    //   await fetch("/api/socket/io")
+    // })
+    
     setSocket(socketInstance);
-
+    
+    console.log(socketInstance)
     return () => {
       socketInstance.disconnect()
     }

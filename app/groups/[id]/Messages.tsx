@@ -1,78 +1,139 @@
 'use client';
 
-import Spinner from "@/components/Spinner";
 import { useQueryGroupMessages } from "@/hooks/use-query-messages";
-import { tiempoTranscurrido } from "@/lib/utils";
-import { Fragment } from "react";
-import { FaTrash } from "react-icons/fa";
-import { Divider } from "./divider";
-import { useChatGroupSocket } from "@/hooks/use-chat-group-socket";
+import { pusherClient } from "@/lib/pusher";
+import { ApiGroupMessagesResponse, GroupMessageType, ReactQueryGroupMessagesResponse } from "@/types";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import Messages from "./message";
+import Spinner from "@/components/Spinner";
 import { useGlobalError } from "@/components/providers/GlobalErrorProvider";
-
-const LoadingSpinner = () => {
-  return (
-    <div className="flex justify-center items-center">
-      <Spinner width={50} height={50} />
-    </div>
-  )
-}
+import MoreMessages from "./more-messages";
 
 export default function GroupMessages(
   { apiUrl, groupId, userId }
-  : {
-    apiUrl: string;
-    groupId: string;
-    userId: string;
-  }
+    : {
+      apiUrl: string;
+      groupId: string;
+      userId: string;
+    }
 ) {
 
-  const addKey = `chat:${groupId}:messages`;
-  const queryKey = `messages:${userId}`;
+  const [messages, setMessages] = useState<InfiniteData<ApiGroupMessagesResponse, unknown>>({
+    pageParams: [],
+    pages: []
+  })
 
   const { setError } = useGlobalError()
+  const queryClient = useQueryClient();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch, status, isLoading, error, isPending, fetchStatus } = useQueryGroupMessages({ apiUrl, groupId, userId });
-  useChatGroupSocket({addKey, queryKey})
+  const { data, error, fetchNextPage, fetchStatus, hasNextPage, isFetchingNextPage, isLoading, isPending, refetch, status } = useQueryGroupMessages({
+    apiUrl,
+    groupId,
+    userId
+  })
 
-  if (fetchStatus === 'fetching' || isLoading || isPending) {
-    return <LoadingSpinner />
+  if (error) {
+    setError(error.message);
   }
 
-  if (status === 'error') setError(error?.message!)
+  useEffect(() => {
+
+    if (data) {
+      setMessages(data);
+    }
+
+    pusherClient.subscribe(groupId)
+      .bind('chat:messages', (message: GroupMessageType) => {
+
+        queryClient.setQueryData([`messages:${groupId}:${userId}`], (oldData: ReactQueryGroupMessagesResponse) => {
+
+          if (!oldData || !oldData.pages || oldData.pages.length === 0) {
+            return {
+              pages: [
+                {
+                  messages: [message],
+                  nextCursor: null
+                }
+              ],
+              pageParams: undefined
+            } satisfies ReactQueryGroupMessagesResponse
+          }
+
+          let newData = [...oldData.pages];
+
+          newData[0] = {
+            ...newData[0],
+            messages: [
+              message,
+              ...newData[0].messages
+            ]
+          }
+
+          return {
+            ...oldData,
+            pages: newData
+          }
+
+        })
+
+        // if (!messages || !messages.pages || messages.pages.length === 0) {
+        //   setMessages({
+        //     pages: [
+        //       {
+        //         messages: [message],
+        //         nextCursor: null
+        //       }
+        //     ],
+        //     pageParams: [1]
+        //   })
+        //   return;
+        // }
+
+        // let newData = [...messages.pages];
+
+        // newData[0] = {
+        //   ...newData[0],
+        //   messages: [
+        //     message,
+        //     ...newData[0].messages,
+        //   ]
+        // }
+
+        // const totalData = {
+        //   ...messages,
+        //   pages: newData
+        // }
+
+        // setMessages(totalData)
+
+      })
+
+    return () => {
+      pusherClient.unsubscribe(groupId.toString())
+      pusherClient.unbind('chat:messages')
+    }
+  }, [data])
 
   return (
     <div className="grow flex flex-col gap-4">
-      {
-        data?.pages?.map(({ messages }, index) => (
-          <Fragment key={`${index}:${Math.random() * 1000}`}>
-            {
-              messages.map((msg, ind) => (
-                <Fragment key={`${msg.id}:${ind}`}>
-                  <div className="flex gap-4 items-start relative">
-                    <div className="min-w-[50px] min-h-[50px] max-w-[50px] max-h-[50px]">
-                      <img src={msg.emisorUser.image!} alt="Image" className="w-full h-full object-cover rounded-full" />
-                    </div>
-                    <div className="flex grow flex-col gap-y-1 justify-center">
-                      <span className="text-sm text-neutral-500">{tiempoTranscurrido(msg.created_at.toString())}</span>
-                      <h2 className="font-semibold">{msg.emisorUser.name}</h2>
-                      <p className="text-neutral-300">{msg.message}</p>
-                    </div>
-                    {
-                      (msg.status !== 'deleted' && msg.emisorUser.id === userId) && (
-                        <button className="absolute p-2 bg-none text-gray-500 hover:text-gray-400 top-0 rounded right-2">
-                          <FaTrash size={25} />
-                        </button>
-                      )
-                    }
-                  </div>
-                  {
-                    ind !== messages.length-1 && <Divider />
-                  }
-                </Fragment>
-              ))
-            }
-          </Fragment>
-        ))
+      { isLoading || isPending ? (
+        <div className="flex justify-center items-center py-4">
+          <Spinner height={80} width={80} />
+        </div>
+      ) :(
+        <>
+          <Messages
+            userId={userId}
+            messages={messages}
+          />
+          <MoreMessages
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+          />
+        </>
+      )
       }
     </div>
   )

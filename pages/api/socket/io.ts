@@ -10,21 +10,18 @@ export const config = {
 }
 
 const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
-  if (res.socket.server.io) {
-    res.status(200).json({message: 'Socket is already running'});
-    return;
+  if (!res.socket.server.io) {
+    const path = '/api/socket/io';
+    const httpServer: NetServer = res.socket.server as any;
+    const io = new Server(res.socket.server as any, {
+      path,
+      addTrailingSlash: false
+    })
+
+    //@ts-ignore
+    res.socket.server.io = io;
   }
-  const io = new Server({
-    path: '/api/socket/io',
-    addTrailingSlash: false,
-    cors: {
-      origin: process.env.NEXT_PUBLIC_SITE_URL
-    }
-  })
-
-  res.socket.server.io = io;
-
-  res.status(201).json({message: 'Socket is started!'})
+  res.end()
 }
 
 export default ioHandler;

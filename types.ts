@@ -40,7 +40,7 @@ export type ReactQueryNotificationsResponse = {
 export type NextApiResponseServerIo = NextApiResponse & {
   socket: Socket & {
     server: NetServer & {
-      io: Server
+      io: SocketIOServer
     }
   }
 }
