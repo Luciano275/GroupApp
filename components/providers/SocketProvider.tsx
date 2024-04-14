@@ -2,7 +2,7 @@
 
 import React, { useContext, createContext, useState, useEffect } from 'react';
 import { Socket } from 'socket.io';
-import { io as ClientIO } from 'socket.io-client'
+import { io } from 'socket.io-client'
 
 interface ISocketProviderContext {
   socket: Socket | null;
@@ -26,7 +26,7 @@ export const SocketProvider = (
   const [socket, setSocket] = useState<any>(null);
 
   useEffect(() => {
-    const socketInstance = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
+    const socketInstance = io(process.env.NEXT_PUBLIC_SITE_URL!, {
       path: '/api/socket/io',
       addTrailingSlash: false
     })
