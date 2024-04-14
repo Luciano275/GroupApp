@@ -1,4 +1,6 @@
+import { ApiGroupMessagesResponse } from "@/types";
 import { db } from "./db";
+import qs from 'query-string'
 
 export async function fetchMyGroups(id: string) {
   try {
@@ -320,6 +322,28 @@ export async function skorsMember(memberId: number, userId: string, groupId: num
     return member;
   }catch (e){
     console.error(e);
-    throw new Error('Failed to skors member')
+    throw new Error('Failed to skors member');
+  }
+}
+
+export const getMessages = async ({pageParam = undefined, apiUrl, groupId}: {pageParam?: number, apiUrl: string, groupId: string}) => {
+  try {
+    const url = qs.stringifyUrl({
+      url: apiUrl,
+      query: {
+        groupId,
+        cursor: pageParam
+      }
+    })
+    const rq = await fetch(url, {
+      credentials: 'include',
+      next: {
+        tags: ['group:messages']
+      }
+    });
+    return await rq.json()
+  }catch (e) {
+    console.error(e);
+    throw new Error('Failed to fetch messages')
   }
 }

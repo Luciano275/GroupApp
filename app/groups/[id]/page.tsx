@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import AddMessage from "./add-message";
 import { Divider } from "./divider";
 import GroupMessages from "./Messages";
@@ -20,7 +19,7 @@ export default async function Group(
 
       <AddMessage
         userId={userId}
-        apiUrl={'/api/socket/group/messages'}
+        apiUrl={'/api/group/messages'}
         groupId={groupId}
       />
 

@@ -1,11 +1,9 @@
-import { useSocket } from "@/components/providers/SocketProvider";
+import { pusherClient } from "@/lib/pusher";
 import { ApiGroupMessagesResponse } from "@/types";
-import { useInfiniteQuery, useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import qs from 'query-string'
 
 export const useQueryGroupMessages = ({userId, groupId, apiUrl}: { userId: string, groupId: string, apiUrl: string }) => {
-
-  const { isConnected } = useSocket();
 
   const getMessages = async ({pageParam = undefined}: {pageParam?: number}) => {
     const url = qs.stringifyUrl({
@@ -37,12 +35,12 @@ export const useQueryGroupMessages = ({userId, groupId, apiUrl}: { userId: strin
     error,
     isPending,
     fetchStatus
-  } = useSuspenseInfiniteQuery({
-    queryKey: [`messages:${userId}`],
+  } = useInfiniteQuery({
+    queryKey: [`messages:${groupId}:${userId}`],
     initialPageParam: 1,
     queryFn: getMessages,
     getNextPageParam: (lastPage) => lastPage?.nextCursor,
-    refetchInterval: isConnected ? false : 1000
+    refetchInterval: pusherClient ? false : 2000
   })
 
   return {

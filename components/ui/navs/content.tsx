@@ -9,7 +9,6 @@ import { useQueryNotifications } from "@/hooks/use-query-notifications";
 import NotificationButton from "../notifications/button";
 import NotificationContainer from "../notifications/container";
 import NotificationContent from "../notifications/content";
-import { useSocket } from "@/components/providers/SocketProvider";
 
 export default function NavContent(
   { session }
@@ -18,7 +17,6 @@ export default function NavContent(
     }
 ) {
 
-  const { isConnected } = useSocket()
   const [show, setShow] = useState(false);
 
   const userId = session.user?.id!;
@@ -29,14 +27,6 @@ export default function NavContent(
 
   return (
     <>
-
-      <div className="flex justify-center items-center">
-        <span
-          title={isConnected ? 'Online' : 'Offline'}
-          className={`w-[20px] h-[20px] rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-600'}`}
-        ></span>
-      </div>
-
       <NotificationButton
         show={show}
         setShow={setShow}
