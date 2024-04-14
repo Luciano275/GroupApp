@@ -21,6 +21,10 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
       origin: process.env.NEXT_PUBLIC_SITE_URL
     }
   })
+
+  res.socket.server.io = io;
+
+  res.status(201).json({message: 'Socket is started!'})
 }
 
 export default ioHandler;
