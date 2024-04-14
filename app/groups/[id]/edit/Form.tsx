@@ -7,6 +7,8 @@ import { updateGroupAction } from "@/lib/actions";
 import { ResponseGroupAction } from "@/types";
 import React, { useState } from "react";
 import { useLoading } from "@/components/providers/LoadingProvider";
+import { CgCopy } from "react-icons/cg";
+import { Tooltip } from "@mui/material";
 
 export default function EditGroupForm(
   {group}
@@ -14,6 +16,7 @@ export default function EditGroupForm(
     group: {
       id: number;
       title: string;
+      code: string;
       teacher: {
         name: string | null;
         email: string | null;
@@ -65,6 +68,25 @@ export default function EditGroupForm(
           id="group-edit-error-name"
           field="title"
         />
+      </div>
+      <div>
+        <label htmlFor="group-name" className="block pb-2">
+          Código del grupo
+        </label>
+        <div className="flex rounded border border-gray-800 items-center bg-gray-950">
+          <p className="text-neutral-500 grow p-2">{group.code}</p>
+          <Tooltip title="Copiar">
+            <button
+              type="button"
+              className="bg-gray-900 p-2 text-white active:bg-gray-700"
+              onClick={async () => {
+                await navigator.clipboard.writeText(group.code)
+              }}
+            >
+              <CgCopy size={25} />
+            </button>
+          </Tooltip>
+        </div>
       </div>
       <button className="p-2 rounded bg-gray-700 hover:bg-gray-900">Guardar</button>
       

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import AddMessage from "./add-message";
 import { Divider } from "./divider";
 import GroupMessages from "./Messages";

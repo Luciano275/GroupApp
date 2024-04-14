@@ -154,6 +154,7 @@ export async function fetchGroupById(groupId: string, userId: string) {
       select: {
         id: true,
         title: true,
+        code: true,
         teacher: {
           select: {
             name: true,

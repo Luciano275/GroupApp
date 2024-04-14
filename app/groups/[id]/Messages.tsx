@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Spinner from "@/components/Spinner";
 import { useQueryGroupMessages } from "@/hooks/use-query-messages";
@@ -7,6 +7,7 @@ import { Fragment } from "react";
 import { FaTrash } from "react-icons/fa";
 import { Divider } from "./divider";
 import { useChatGroupSocket } from "@/hooks/use-chat-group-socket";
+import { useGlobalError } from "@/components/providers/GlobalErrorProvider";
 
 export default function GroupMessages(
   { apiUrl, groupId, userId }
@@ -18,26 +19,27 @@ export default function GroupMessages(
 ) {
 
   const addKey = `chat:${groupId}:messages`;
-  const queryKey = `messages:${userId}`
+  const queryKey = `messages:${userId}`;
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch, status, isLoading } = useQueryGroupMessages({ apiUrl, groupId, userId });
+  const { setError } = useGlobalError()
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch, status, isLoading, error, isPending, fetchStatus } = useQueryGroupMessages({ apiUrl, groupId, userId });
   useChatGroupSocket({addKey, queryKey})
 
-  console.log(data);
+  if (fetchStatus === 'fetching' || isLoading || isPending) {
+    return (
+      <div className="flex justify-center items-center">
+        <Spinner width={50} height={50} />
+      </div>
+    )
+  }
 
-  // if (isLoading || status === 'pending' || data === undefined || !data) {
-  //   return (
-  //     <div className="flex justify-center items-center">
-  //       <Spinner width={50} height={50} />
-  //     </div>
-  //   )
-  // }
+  if (status === 'error') setError(error?.message!)
 
   return (
     <div className="grow flex flex-col gap-4">
-
       {
-        data?.pages.map(({ messages }, index) => (
+        data?.pages?.map(({ messages }, index) => (
           <Fragment key={`${index}:${Math.random() * 1000}`}>
             {
               messages.map((msg, ind) => (
@@ -68,7 +70,6 @@ export default function GroupMessages(
           </Fragment>
         ))
       }
-
     </div>
   )
 }
