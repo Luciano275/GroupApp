@@ -5,7 +5,7 @@ import qs from 'query-string'
 
 export const useQueryGroupMessages = ({userId, groupId, apiUrl}: { userId: string, groupId: string, apiUrl: string }) => {
 
-  const { socket } = useSocket();
+  const { isConnected } = useSocket();
 
   const getMessages = async ({pageParam = undefined}: {pageParam?: number}) => {
     const url = qs.stringifyUrl({
@@ -42,7 +42,7 @@ export const useQueryGroupMessages = ({userId, groupId, apiUrl}: { userId: strin
     initialPageParam: 1,
     queryFn: getMessages,
     getNextPageParam: (lastPage) => lastPage?.nextCursor,
-    refetchInterval: 1000
+    refetchInterval: isConnected ? false : 1000
   })
 
   return {
