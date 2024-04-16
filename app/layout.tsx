@@ -11,8 +11,6 @@ import QueryProvider from "@/components/providers/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const runtime = 'edge';
-
 export const metadata: Metadata = {
   title: "Iniciar sesión",
   description: "App de grupos con Next Auth",
