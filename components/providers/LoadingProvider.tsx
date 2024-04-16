@@ -42,7 +42,7 @@ export const Loading = () => {
         <Spinner
           width={80}
           height={80}
-          borderWidth={8}
+          borderWidth={4}
         />
       </div>
     )

@@ -26,6 +26,8 @@ export default function GroupMessages(
 
   const { setError } = useGlobalError()
   const queryClient = useQueryClient();
+  
+  const queryKey = `messages:${groupId}:${userId}`
 
   const { data, error, fetchNextPage, fetchStatus, hasNextPage, isFetchingNextPage, isLoading, isPending, refetch, status } = useQueryGroupMessages({
     apiUrl,
@@ -46,7 +48,7 @@ export default function GroupMessages(
     pusherClient.subscribe(groupId)
       .bind('chat:messages', (message: GroupMessageType) => {
 
-        queryClient.setQueryData([`messages:${groupId}:${userId}`], (oldData: ReactQueryGroupMessagesResponse) => {
+        queryClient.setQueryData([queryKey], (oldData: ReactQueryGroupMessagesResponse) => {
 
           if (!oldData || !oldData.pages || oldData.pages.length === 0) {
             return {
@@ -77,36 +79,32 @@ export default function GroupMessages(
 
         })
 
-        // if (!messages || !messages.pages || messages.pages.length === 0) {
-        //   setMessages({
-        //     pages: [
-        //       {
-        //         messages: [message],
-        //         nextCursor: null
-        //       }
-        //     ],
-        //     pageParams: [1]
-        //   })
-        //   return;
-        // }
+      })
+      .bind('chat:messages:updated', (message: GroupMessageType) => {
+        queryClient.setQueryData([queryKey], (oldData: ReactQueryGroupMessagesResponse) => {
 
-        // let newData = [...messages.pages];
+          if (!oldData || !oldData.pages || oldData.pages.length === 0) {
+            return oldData;
+          }
 
-        // newData[0] = {
-        //   ...newData[0],
-        //   messages: [
-        //     message,
-        //     ...newData[0].messages,
-        //   ]
-        // }
+          const newData = oldData.pages.map((page) => {
+            return {
+              ...page,
+              messages: page.messages.map((msg) => {
+                if (msg.id === message.id) {
+                  return message;
+                }
+                return msg;
+              })
+            }
+          })
 
-        // const totalData = {
-        //   ...messages,
-        //   pages: newData
-        // }
+          return {
+            ...oldData,
+            pages: newData
+          }
 
-        // setMessages(totalData)
-
+        })
       })
 
     return () => {

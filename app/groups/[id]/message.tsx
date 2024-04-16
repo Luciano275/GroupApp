@@ -25,10 +25,10 @@ export default function Messages(
                 <div className="flex grow flex-col gap-y-1 justify-center">
                   <span className="text-sm text-neutral-500">{tiempoTranscurrido(msg.created_at.toString())}</span>
                   <h2 className="font-semibold">{msg.emisorUser.name}</h2>
-                  <p className="text-neutral-300">{msg.message}</p>
+                  <p className={`${msg.status !== 'deleted' ? 'text-neutral-300' : 'text-neutral-400 italic'}`}>{msg.message}</p>
                 </div>
                 
-                <DeleteMessage msg={msg} userId={userId} />
+                <DeleteMessage groupId={msg.group.id.toString()} apiUrl={`/api/group/messages/${msg.id}`} msg={msg} userId={userId} />
               </div>
               {
                 ind !== messages.length-1 && <Divider />
