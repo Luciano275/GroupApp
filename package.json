@@ -17,6 +17,7 @@
     "@mui/material": "^5.15.14",
     "@prisma/client": "^5.11.0",
     "@tanstack/react-query": "^5.28.9",
+    "crypto": "^1.0.1",
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "flowbite": "^2.3.0",
