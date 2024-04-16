@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { fetchGroupById } from "@/lib/data";
+import { belongGroup, fetchGroupById } from "@/lib/data";
 import { db } from "@/lib/db";
 import { pusherServer } from "@/lib/pusher";
 import { GroupMessageType } from "@/types";
@@ -21,7 +21,7 @@ export const DELETE = async (req: Request, {params}: { params: { id: string } })
       return Response.json({ message: 'User ID es requerido' }, {status: 400})
     }
 
-    const isGroupExists = await fetchGroupById(groupId, userId);
+    const isGroupExists = await belongGroup(groupId, userId);
 
     if (!isGroupExists) {
       return Response.json({message: 'El group no existe'}, {status: 404})
