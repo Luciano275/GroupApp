@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BiSolidMessageRoundedDetail } from "react-icons/bi";
 import { MdGroup } from "react-icons/md";
 
 export const LINKS = [
@@ -10,10 +9,6 @@ export const LINKS = [
     icon: MdGroup,
     href: "/groups"
   },
-  {
-    icon: BiSolidMessageRoundedDetail,
-    href: "/messages"
-  }
 ]
 
 export default function SideBar() {
