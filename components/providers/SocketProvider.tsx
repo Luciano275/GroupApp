@@ -28,24 +28,20 @@ export const SocketProvider = (
   useEffect(() => {
     const socketInstance = io('http://localhost:3000', {
       path: '/api/socket/io',
+      addTrailingSlash: false,
+      transports: ['websocket', 'polling']
     })
 
-    // socketInstance.on('connect', () => {
-    //   setIsConnected(true)
-    // })
+    socketInstance.on('connect', () => {
+      setIsConnected(true)
+    })
 
-    // socketInstance.on('disconnect', () => {
-    //   setIsConnected(false)
-    // })
-
-    // socketInstance.on("connect_error", async err => {
-    //   console.log(`connect_error due to ${err}`)
-    //   await fetch("/api/socket/io")
-    // })
+    socketInstance.on('disconnect', () => {
+      setIsConnected(false)
+    })
     
     setSocket(socketInstance);
     
-    console.log(socketInstance)
     return () => {
       socketInstance.disconnect()
     }

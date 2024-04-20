@@ -27,19 +27,19 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <QueryProvider>
-          <ModalProvider>
-            <LoadingProvider>
-              <Loading />
-              
-              <GlobalErrorProvider>
-                <GlobalError />
-                <ModalGroup userId={userId || ''} />
-                {children}
-              </GlobalErrorProvider>
-            </LoadingProvider>
-          </ModalProvider>
-        </QueryProvider>
+          <QueryProvider>
+            <ModalProvider>
+              <LoadingProvider>
+                <Loading />
+                
+                <GlobalErrorProvider>
+                  <GlobalError />
+                  <ModalGroup userId={userId || ''} />
+                  {children}
+                </GlobalErrorProvider>
+              </LoadingProvider>
+            </ModalProvider>
+          </QueryProvider>
       </body>
     </html>
   );

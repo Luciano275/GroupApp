@@ -4,6 +4,8 @@ import AuthError from "@/components/AuthError";
 import { loginAction } from "@/lib/actions";
 import { useState } from "react";
 
+export const runtime = 'edge';
+
 export default function Home() {
 
   const [ error, setError ] = useState<string | null>(null)

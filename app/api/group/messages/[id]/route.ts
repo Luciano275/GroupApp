@@ -4,6 +4,8 @@ import { db } from "@/lib/db";
 import { pusherServer } from "@/lib/pusher";
 import { GroupMessageType } from "@/types";
 
+export const runtime = 'edge'
+
 export const DELETE = async (req: Request, {params}: { params: { id: string } }) => {
   try {
 

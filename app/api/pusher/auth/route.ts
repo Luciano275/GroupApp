@@ -1,5 +1,7 @@
 import { pusherServer } from "@/lib/pusher";
 
+export const runtime = 'edge'
+
 export async function POST(req: Request) {
   console.log("authenticating pusher perms...")
   const data = await req.text();
