@@ -1,3 +1,8 @@
+<h1 align="center">Group App</h1>
+
+## Screenshot
+![screen](https://github.com/Luciano275/GroupApp/assets/71286132/e76f59bd-8097-406b-b797-878400e80ac6)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
