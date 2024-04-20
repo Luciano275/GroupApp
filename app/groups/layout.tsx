@@ -4,8 +4,6 @@ import Nav from "@/components/ui/navs/Nav"
 import SideBar from "@/components/ui/navs/Sidebar"
 import { Metadata } from "next"
 
-export const runtime = 'edge';
-
 export const generateMetadata = async (): Promise<Metadata> => {
   const session = await auth();
 

@@ -3,8 +3,6 @@ import { db } from "@/lib/db";
 
 const TOTAL_NOTIFICATIONS = 5;
 
-export const runtime = 'edge';
-
 export async function GET(req: Request) {
   try {
 

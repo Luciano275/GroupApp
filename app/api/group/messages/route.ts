@@ -5,8 +5,6 @@ import { pusherServer } from "@/lib/pusher";
 import { PostGroupMessage } from "@/schemas/group-message";
 import { GroupMessageType } from "@/types";
 
-export const runtime = 'edge';
-
 const TOTAL_MESSAGES = 20
 
 export const GET = async (req: Request) => {

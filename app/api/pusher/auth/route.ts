@@ -1,6 +1,5 @@
 import { pusherServer } from "@/lib/pusher";
-
-export const runtime = 'edge'
+import { ServerRuntime } from "next";
 
 export async function POST(req: Request) {
   console.log("authenticating pusher perms...")

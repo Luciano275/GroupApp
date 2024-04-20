@@ -3,8 +3,6 @@ import { auth } from "@/auth";
 import GroupLayout from './groups/layout'
 import { Metadata } from "next";
 
-export const runtime = 'edge';
-
 export const metadata: Metadata = {
   title: "Error 404"
 }
